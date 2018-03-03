@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('form').submit(function(){
+                var city= $('#city').val();
+                $.get("http://api.openweathermap.org/data/2.5/weather?q="+city+"&&appid=7487c1dfde39f4991c9a0f0194151f48", function(res){
+                    var cityres = res["name"];
+                    var kelvin = res.main["temp"];
+                    var farenheit = kelvin * (9/5) - 459.67;
+                    var farenheitRounded = Math.round(farenheit);
+                    $(".weatherdisplay").html("<h1>"+cityres+"</h1><p>Temperature: "+farenheitRounded+"</p>")
+                    console.log(farenheit);
+                    console.log(farenheitRounded);
+                    console.log(res);
+                    console.log(res["name"])
+                    console.log(res.main["temp"])
+                }, 'json');
+                return false;
+            })
+        })
+    </script>
+</head>
+<style>
+    .wrapper{
+        width: 970px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: lightblue;
+    }
+</style>
+<body>
+    <div class="wrapper">
+        <h1>Enter a City Name for Current Temperature<h1>
+        <form action="process.php" method="post">
+            <input id="city" type="text" name="city">
+            <input id="weathersearch" type="submit" value="Search Weather">
+        </form>
+        <div class="weatherdisplay"></div>
+    </div>
+</body>
+</html>
